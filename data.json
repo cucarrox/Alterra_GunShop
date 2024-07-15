@@ -1,0 +1,100 @@
+{
+   "equipaments": [
+      {
+         "id": "0",
+         "title": "Asinuv MP5",
+         "description": "A arma padrão do excercito da Alterra",
+         "tags": ["5.56mm"],
+         "price": 100.00,
+         "image": "../Public/Imgs/Guns/mp5.png"
+      },
+      {
+         "id": "1",
+         "title": "MS1 Gala",
+         "description": "O companheiro ideal nas ofensas",
+         "tags": ["7.68mm"],
+         "price": 275.00,
+         "image": "../Public/Imgs/Guns/MS1.png"
+      },
+      {
+         "id": "2",
+         "title": "Stinger AA3",
+         "description": "A preferida para derrubar naves",
+         "tags": ["400mm"],
+         "price": 550.00,
+         "image": "../Public/Imgs/Guns/Stinger.png"
+      },
+      {
+         "id": "3",
+         "title": "BFG .50",
+         "description": "Profissionais tem padrões",
+         "tags": [".50mm"],
+         "price": 430.00,
+         "image": "../Public/Imgs/Guns/BFG.png"
+      },
+      {
+         "id": "4",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "5",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "6",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "7",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "8",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "9",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "10",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      },
+      {
+         "id": "11",
+         "title": "Em Breve",
+         "description": "Em breve",
+         "tags": ["Undefined"],
+         "price": 0,
+         "image": "../Public/Imgs/Guns/alterraArmsComingSoon.png"
+      }
+   ]
+}
