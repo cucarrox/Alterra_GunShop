@@ -1,3 +1,10 @@
+/* 
+===============================
+   NÃO É MAIS ULTILIZADO
+   APENAS PARA CONSULTA
+===============================
+*/
+
 import mp5 from "../../Public/Imgs/Guns/mp5.png"
 import ms1 from "../../Public/Imgs/Guns/M1S.png"
 import stinger from "../../Public/Imgs/Guns/Stinger.png"

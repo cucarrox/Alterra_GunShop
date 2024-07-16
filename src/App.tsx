@@ -1,21 +1,19 @@
 //import './App.css'
-
-import { BrowserRouter } from "react-router-dom";
-import { Router } from "./Router";
+import { Outlet } from "react-router-dom";
 import { CartContextProvider } from "./Context/CartProvider";
 
-function App() {
+import { Header } from "./Components/Header/Header";
+
+// Exibição completa dos componentes
+export function App() {
   return (
     <>
       <div className=" flex flex-col justify-center items-center">
-        <BrowserRouter>
-          <CartContextProvider>
-            <Router />
-          </CartContextProvider>
-        </BrowserRouter>
+        <CartContextProvider>
+          <Header />
+          <Outlet />
+        </CartContextProvider>
       </div>
     </>
   );
 }
-
-export default App;
