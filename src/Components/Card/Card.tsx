@@ -49,7 +49,7 @@ export function Card({ guns }: Props) {
 
   return (
     <>
-      <form className="bg-[#f3f2f2] w-[235px] h-[305px] m-5 rounded-tr-[40px] rounded-bl-[40px] rounded-tl-md rounded-br-md text-center shadow-md justify-self-center">
+      <div className="bg-[#f3f2f2] w-[235px] h-[305px] m-5 rounded-tr-[40px] rounded-bl-[40px] rounded-tl-md rounded-br-md text-center shadow-md justify-self-center">
         <div className="relative mb-[-10px] flex justify-center">
           <img className="w-50 h-50 rounded-full" src={guns.image} />
         </div>
@@ -102,7 +102,7 @@ export function Card({ guns }: Props) {
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </>
   );
 }

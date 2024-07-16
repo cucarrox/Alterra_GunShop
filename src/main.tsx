@@ -26,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/order/:orderId/success",
         element: <Success />
+      },
+      {
+        //path: "/loading",
+        //element: <Loading />
       }
     ]
   }

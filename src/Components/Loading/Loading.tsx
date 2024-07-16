@@ -1,3 +1,4 @@
+/*
 import styles from "./Loading.module.css"
 
 import alterraArms from "@/../Public/Imgs/Loading/alterraArms2.png"
@@ -19,3 +20,4 @@ export function Loading() {
       </>
    )
 }
+*/

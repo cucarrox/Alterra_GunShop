@@ -267,7 +267,7 @@ export function Cart() {
               Equipamentos Selecionados
             </h1>
             <div className="bg-gray-100 p-8 rounded-tr-[40px] rounded-bl-[40px] rounded-tl-md rounded-br-md">
-              <div>
+              <div className="max-h-[430px] overflow-auto">
                 {gunsInCart.map((gun) => (
                   <Fragment key={gun.id}>
                     <div className="flex gap-7 justify-between border-b-[1px] pt-3 pb-7">
