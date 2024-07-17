@@ -1,7 +1,8 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import cep from "cep-promise";
 
 import {
   Bank,
@@ -40,9 +41,12 @@ const newOrder = z.object({
   neighborhood: z.string().min(1, "Informe o bairro"),
   city: z.string().min(1, "Informe a cidade"),
   state: z.string().min(1, "UF"),
-  paymentMethod: z.enum(["credit", "debit", "cash", "florins", "bitcoin", "pix"], {
-    invalid_type_error: "Informe um método de pagamento",
-  }),
+  paymentMethod: z.enum(
+    ["credit", "debit", "cash", "florins", "bitcoin", "pix"],
+    {
+      invalid_type_error: "Informe um método de pagamento",
+    }
+  ),
 });
 
 export type OrderInfo = z.infer<typeof newOrder>;
@@ -77,13 +81,34 @@ export function Cart() {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<FormInputs>({
     resolver: zodResolver(newOrder),
   });
 
+  const [messageCep, setMessage] = useState<string>("");
   const selectedPaymentMethod = watch("paymentMethod");
+
+  const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const cepNumber: string = e.target.value;
+
+    if (cepNumber.length === 8) {
+      try {
+        const addressData = await cep(cepNumber);
+        const { street, neighborhood, city, state } = addressData;
+        setValue("street", street);
+        setValue("neighborhood", neighborhood);
+        setValue("city", city);
+        setValue("state", state);
+        setMessage("Endereço encontrado!");
+      } catch (error) {
+        setMessage("Erro ao buscar o CEP");
+        console.log(error);
+      }
+    }
+  };
 
   function handleItemIncrement(itemId: string) {
     incrementItemQuantity(itemId);
@@ -104,6 +129,8 @@ export function Cart() {
 
     checkout(data);
   };
+
+  const { onChange, ...registerRest } = register("cep", { valueAsNumber: true });
 
   return (
     <>
@@ -130,14 +157,26 @@ export function Cart() {
                     placeholder="CEP"
                     type="number"
                     error={errors.cep}
-                    {...register("cep", { valueAsNumber: true })}
+                    onChange={(e) => {
+                      handleCepChange(e)
+                      onChange(e)
+                    }}
+                    { ...registerRest }
                   />
+                  {errors.cep && (
+                    <p className="text-red-500">{errors.cep.message}</p>
+                  )}
+                  <p className="hidden">{messageCep}</p>
                   <TextInput
                     placeholder="Rua"
                     error={errors.street}
+                    disabled
                     {...register("street")}
                     className="w-full"
                   />
+                  {errors.street && (
+                    <p className="text-red-500">{errors.street.message}</p>
+                  )}
                 </div>
                 <div className="flex gap-3">
                   <TextInput
@@ -145,6 +184,9 @@ export function Cart() {
                     error={errors.number}
                     {...register("number")}
                   />
+                  {errors.number && (
+                    <p className="text-red-500">{errors.number.message}</p>
+                  )}
                   <div className="relative w-full">
                     <TextInput
                       placeholder="Complemento"
@@ -153,30 +195,49 @@ export function Cart() {
                       {...register("fullAddress")}
                       className="w-full"
                     />
+                    {errors.fullAddress && (
+                      <p className="text-red-500">
+                        {errors.fullAddress.message}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <TextInput
                     placeholder="Bairro"
                     error={errors.neighborhood}
+                    disabled
                     {...register("neighborhood")}
                   />
+                  {errors.neighborhood && (
+                    <p className="text-red-500">
+                      {errors.neighborhood.message}
+                    </p>
+                  )}
                   <div className="w-full">
                     <TextInput
                       placeholder="Cidade"
                       error={errors.city}
+                      disabled
                       {...register("city")}
                       className="w-full"
                     />
+                    {errors.city && (
+                      <p className="text-red-500">{errors.city.message}</p>
+                    )}
                   </div>
                   <div className="w-[15%]">
                     <TextInput
                       placeholder="UF"
                       maxLength={2}
                       error={errors.state}
+                      disabled
                       {...register("state")}
                       className="w-full"
                     />
+                    {errors.state && (
+                      <p className="text-red-500">{errors.state.message}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -255,9 +316,11 @@ export function Cart() {
                     <span>PIX</span>
                   </PaymentMethodButton>
                 </div>
-                {errors.paymentMethod ? (
-                  <div role="alert">{errors.paymentMethod.message}</div>
-                ) : null}
+                {errors.paymentMethod && (
+                  <div role="alert" className="text-red-500">
+                    {errors.paymentMethod.message}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -323,7 +386,7 @@ export function Cart() {
                   <span className="text-gray-500">
                     {new Intl.NumberFormat("en-gb", {
                       currency: "GBP",
-                      style: "currency"
+                      style: "currency",
                     }).format(shippingPrice)}
                   </span>
                 </div>
@@ -336,7 +399,10 @@ export function Cart() {
                     }).format(totalItemsPrice + shippingPrice)}
                   </span>
                 </div>
-                <button className="bg-blue_light mt-5 flex justify-center gap-2 w-full px-5 py-2.5 rounded-lg font-bold text-white hover:bg-blue_dark transition">
+                <button
+                  type="submit"
+                  className="bg-blue_light mt-5 flex justify-center gap-2 w-full px-5 py-2.5 rounded-lg font-bold text-white hover:bg-blue_dark transition"
+                >
                   <Basket className="w-6 h-6" />
                   CONFIRMAR PEDIDO
                 </button>
