@@ -8,6 +8,7 @@ import { Cart } from './Pages/Cart/Cart';
 import { Success } from './Pages/Success/Success';
 //import { Loading } from './Components/Loading/Loading';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AlterraReceipt } from "./Components/PDFs/AlterraReceipt.tsx";
 
 // Uma forma diferente de criar rotas com react-router-dom
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         //path: "/loading",
         //element: <Loading />
+      },
+      {
+        path: "/receipt",
+        element: <AlterraReceipt />
       }
     ]
   }

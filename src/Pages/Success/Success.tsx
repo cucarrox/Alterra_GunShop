@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import generatePDF from "react-to-pdf"
+
 import { useCart } from "@/Hooks/useCart";
 import { Timer, MapPin, CurrencyGbp, Coins, CurrencyBtc, Bank, CreditCard, PixLogo } from "@phosphor-icons/react";
 import { useParams } from "react-router-dom";
@@ -8,10 +11,12 @@ import alterraArms from "../../../Public/Imgs/alterraArms.png";
 
 import spin1 from "../../../Public/Imgs/Loading/alterraSpin1.png"
 import spin2 from "../../../Public/Imgs/Loading/alterraSpin2.png"
+import { AlterraReceipt } from "@/Components/PDFs/AlterraReceipt";
 
 export function Success() {
   const { orders } = useCart();
   const { orderId } = useParams();
+  const targetRef = useRef();
 
   const orderInfo = orders.find((order) => order.id === Number(orderId));
 
@@ -74,6 +79,14 @@ export function Success() {
                 <div className="flex flex-col">
                   <span>Forma de pagamento</span>
                   <strong>{paymentMethod[orderInfo.paymentMethod]}</strong>
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <button onClick={() => generatePDF(targetRef, {filename: "Alterra_Recibo.pdf"})} className="bg-blue_light p-2 px-5 rounded-lg font-bold text-white">Baixar Recibo</button>
+                <div className="" ref={targetRef}>
+                  <div>
+                    <AlterraReceipt />
+                  </div>
                 </div>
               </div>
             </div>
