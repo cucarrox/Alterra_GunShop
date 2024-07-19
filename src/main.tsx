@@ -1,14 +1,15 @@
 import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ReactDOM from "react-dom/client";
+
 import "./index.css";
 
 import { App } from "./App.tsx";
 import { Home } from './Pages/Home/Home';
 import { Cart } from './Pages/Cart/Cart';
 import { Success } from './Pages/Success/Success';
+import Receipt from "./Pages/Receipts/Receipts.tsx";
 //import { Loading } from './Components/Loading/Loading';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AlterraReceipt } from "./Components/PDFs/AlterraReceipt.tsx";
 
 // Uma forma diferente de criar rotas com react-router-dom
 const router = createBrowserRouter([
@@ -33,8 +34,8 @@ const router = createBrowserRouter([
         //element: <Loading />
       },
       {
-        path: "/receipt",
-        element: <AlterraReceipt />
+        path: "order/:orderId/success/receipt",
+        element: <Receipt />
       }
     ]
   }
