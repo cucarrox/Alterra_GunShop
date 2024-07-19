@@ -1,86 +1,77 @@
-import alterraLogo from "../../../Public/Imgs/alterra_icon.png"
-
-import { useCart } from "@/Hooks/useCart"
-import { useParams } from "react-router-dom"
-
+import alterraLogo from "../../../Public/Imgs/alterra_icon.png";
 import { equipaments } from "../../../data.json";
 
-export function AlterraReceipt() {
-   const { orders } = useCart();
-   const { orderId } = useParams();
+interface OrderItem {
+   id: string;
+   quantity: number;
+ }
+ 
+ interface Order {
+   id: number;
+   street: string;
+   number: string;
+   neighborhood: string;
+   city: string;
+   state: string;
+   paymentMethod: string;
+   items: OrderItem[];
+ }
 
-   const orderInfo = orders.find((order) => order.id === Number(orderId))
+interface Equipment {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  price: number;
+  image: string;
+}
 
-   /*
-   if (!orderInfo?.id) {
-    return null;
-   }
-   */
-  
-   const {
-      cart
-    } = useCart();
+interface AlterraReceiptProps {
+  orderInfo: Order;
+}
 
-   const gunsInCart = cart.map((item) => {
-      const gunInfo = equipaments.find((guns) => guns.id === item.id);
-  
-      if (!gunInfo) {
-         throw new Error("Invalid Equipament");
-       }
-       return {
-         ...gunInfo,
-         quantity: item.quantity,
-       };
-     });
+export function AlterraReceipt({ orderInfo }: AlterraReceiptProps) {
+  const gunsInCart = orderInfo.items.map((item) => {
+    const gunInfo = equipaments.find((equip: Equipment) => equip.id === item.id.toString()); // Converte o ID do item para string
 
-    const totalItemsPrice = gunsInCart.reduce((previousValue, currentItem) => {
-      return (previousValue += currentItem.price * currentItem.quantity);
-    }, 0);
+    if (!gunInfo) {
+      throw new Error("Invalid Equipment");
+    }
 
-   return (
-      <>
-         <div className="border-2 w-1/2 h-full">
-            <header className="flex justify-between border-orange-500 border-t-[15px] border-b-[15px]">
-               <div className="bg-theme_dark p-2">
-                  <img className="w-[70px]" src={alterraLogo} alt="" />
-               </div>
-               <div className="bg-theme_light flex flex-col p-2 justify-end">
-                  <h1 className="text-white">Alterra Corps</h1>
-                  <span>Id produto: {orderInfo?.id}</span>
-               </div>
-            </header>
-            <main className="w-full flex flex-col justify-center pt-14">
-               <table className="border-collapse w-[80%]">
-                  <thead className="bg-orange-500 table w-full table-fixed">
-                     <tr>
-                        <th className="border-[1px] border-black p-1 px-5 w-[10%]">N°</th>
-                        <th className="border-[1px] border-black p-1 px-5">Produto</th>
-                        <th className="border-[1px] border-black p-1 px-5">Preço</th>
-                        <th className="border-[1px] border-black p-1 px-5 w-[10%]">Qty</th>
-                        <th className="border-[1px] border-black p-1 px-5">Total</th>
-                     </tr>
-                  </thead>
-                  <tbody className="table w-full table-fixed">
-                     <tr className="table w-full table-fixed border-t-[5px] border-transparent">
-                        <td className="text-secondary p-1 px-5 leading-relaxed text-[0.850rem] bg-slate-100 w-[10%]"></td>
-                        <td className="text-secondary p-1 px-5 leading-relaxed text-[0.850rem] bg-slate-100">{}</td>
-                        <td className="text-secondary p-1 px-5 leading-relaxed text-[0.850rem] bg-slate-100">$100.00</td>
-                        <td className="text-secondary p-1 px-5 leading-relaxed text-[0.850rem] bg-slate-100 w-[10%]">5</td>
-                        <td className="text-secondary p-1 px-5 leading-relaxed text-[0.850rem] bg-slate-100">$500.00</td>
-                     </tr>
-                  </tbody>
-               </table>
-               <div>
-                  <span>{orderInfo?.state}</span>
-                  <span>{orderInfo?.city}</span>
-                  <span>{orderInfo?.number}</span>
-                  <span>{orderInfo?.neighborhood}</span>
-               </div>
-               <div>
-                  <span>Total: {totalItemsPrice}</span>
-               </div>
-            </main>
-         </div>
-      </>
-   )
+    return {
+      ...gunInfo,
+      quantity: item.quantity,
+    };
+  });
+
+  // Calcula o preço total dos itens
+  const totalItemsPrice = gunsInCart.reduce((previousValue, currentItem) => {
+    return previousValue + currentItem.price * currentItem.quantity;
+  }, 0);
+
+  return (
+    <div className="border-2 w-full h-full">
+      <header className="flex justify-between border-orange-500 border-t-[15px] border-b-[15px] p-5">
+        <img src={alterraLogo} alt="Alterra Logo" className="w-24" />
+        <div className="text-center">
+          <h1 className="text-xl font-bold">Recibo de Compra</h1>
+          <p>Pedido ID: {orderInfo.id}</p>
+        </div>
+        <div></div>
+      </header>
+      <main className="p-5">
+        <h2 className="text-lg font-bold">Itens no Pedido:</h2>
+        {gunsInCart.map((item) => (
+          <div key={item.id} className="flex justify-between py-2">
+            <span>{item.title}</span>
+            <span>{item.quantity} x ${item.price.toFixed(2)}</span>
+          </div>
+        ))}
+        <div className="flex justify-between py-2 font-bold">
+          <span>Total:</span>
+          <span>${totalItemsPrice.toFixed(2)}</span>
+        </div>
+      </main>
+    </div>
+  );
 }

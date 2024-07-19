@@ -85,7 +85,7 @@ export function Success() {
                 <button onClick={() => generatePDF(targetRef, {filename: "Alterra_Recibo.pdf"})} className="bg-blue_light p-2 px-5 rounded-lg font-bold text-white">Baixar Recibo</button>
                 <div className="" ref={targetRef}>
                   <div>
-                    <AlterraReceipt />
+                    <AlterraReceipt orderInfo={orderInfo} />
                   </div>
                 </div>
               </div>
